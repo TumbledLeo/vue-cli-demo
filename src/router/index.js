@@ -14,38 +14,17 @@ Vue.use(Router)
 const router = new Router({
   routes: [{
     path: '/',
-    name: 'index',
-    component:inde,
+    name: 'inde',
+    component: inde,
      meta: {
        requireAuth: true
       }  
-   /*  ,
-
-      children: [{
-        path: '/centers',
-        name: 'centers',
-        component: centers
-      }, {
-        path: '/card',
-        name: 'card',
-        component: card
-      },{
-        // 代理
-        path: '/agent',
-        name: 'agent',
-        component: agent
-      }, {
-        // 实名认证
-        path: '/realName',
-        name: 'realName',
-        component: realName
-      }]
- */
   }, {
     path: '/login',
     name: 'login',
     component: login
-  }]
+  }
+]
 })
 
 // 判断是否需要登录权限 以及是否登录

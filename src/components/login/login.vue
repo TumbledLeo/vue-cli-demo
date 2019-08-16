@@ -1,10 +1,10 @@
 <template>
   <div>
     <van-cell-group>
-      <van-field v-model="formData.username" required clearable label="用户名" placeholder="请输入用户名" />
+      <van-field v-model="formData.userName" required clearable label="用户名" placeholder="请输入用户名" />
 
       <van-field
-        v-model="formData.userpwd"
+        v-model="formData.passWord"
         type="password"
         label="密码"
         placeholder="请输入密码"
@@ -28,14 +28,14 @@ export default {
   data() {
     return {
       formData: {
-        username: "admin",
-        userpwd: "admin"
+        userName: "root",
+        passWord: "root"
       }
     };
   },
   methods: {
     sub() {
-        this.$router.push({ name: "inde", params: { id: 1 } })
+        
       // var formData=this.formData
      /*  this.$http({
         method: "post",
@@ -53,8 +53,46 @@ export default {
           this.$toast.fail(msg);
         }
       }); */
+
+      const self = this;
+        this.$http.get('https://www.easy-mock.com/mock/5d5522f9e58881382c4cd93c/example/login').then(response=>{
+          var res =response.data.data.data,
+              len = res.length,
+              userNameArr= [],
+              passWordArr= [],
+              ses= window.sessionStorage; 
+          // 拿到所有的username
+         
+          for(var i=0; i<len; i++){
+            userNameArr.push(res[i].username);
+            passWordArr.push(res[i].password);
+          }
+          console.log(userNameArr, passWordArr);
+          console.log(userNameArr.indexOf(self.formData.userName));
+          if(userNameArr.indexOf(self.formData.userName) === -1){
+              alert('账号不存在！');
+          }else{
+            var index = userNameArr.indexOf(self.formData.userName);
+            if(passWordArr[index] === self.formData.passWord){
+              // 把token放在sessionStorage中
+            //  ses.setItem('data', res[index].token);
+         //     self.$parent.$data.userTitle = res[index].usertitle;
+              //验证成功进入首页
+          //    self.startHacking ('登录成功！');
+              //跳转到首页
+             this.$router.push('/index')
+              // console.log(this.$router);
+            }else{
+              alert('密码错误！')
+            }
+
+          }
+        }).catch(err=>{
+          console.log('连接数据库失败！')
+        })
+      }
     }
-  }
+ 
 };
 </script>
 
